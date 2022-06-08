@@ -139,11 +139,37 @@ select dane3();
 
 --3.25 todo!
 CREATE FUNCTION tytuly (integer) RETURNS setof text[]
-AS 'SELECT autor_tytul[1:3][2:2]FROM wypozyczenia WHERE nr_prac = $1'
+AS 'SELECT autor_tytul[1:100][2:2]FROM wypozyczenia WHERE nr_prac = $1'
 LANGUAGE 'sql';
 select tytuly(1);
---funkcja działa poprawnie
+--funkcja działa poprawnie (trzeba niestety określić maksymalną ilość wypożyczeń)
 
 --3.26
+CREATE OR REPLACE FUNCTION concat (text, text) RETURNS text AS
+$$
+    --DECLARE --mogłoby być
+    BEGIN
+    RETURN $1||$2;
+    END;
+$$
+LANGUAGE 'plpgsql';
 
+--3.27
+SELECT concat('bazy ', 'danych');
+--funkcja działa poprawnie
 
+--3.28
+CREATE OR REPLACE FUNCTION extra_money (integer) RETURNS real AS
+$$
+DECLARE zm real;
+BEGIN
+SELECT 1.25 * pensja INTO zm FROM pracownicy WHERE nr_prac = $1;
+RETURN zm;
+END;
+$$
+LANGUAGE 'plpgsql';
+
+SELECT * FROM pracownicy;
+UPDATE pracownicy SET pensja = extra_money(1) WHERE nr_prac = 1;
+SELECT * FROM pracownicy;
+--pracownik o numerze 1 dostał podwyżkę
