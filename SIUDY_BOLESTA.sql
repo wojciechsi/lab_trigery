@@ -284,7 +284,7 @@ END;
 $$
 LANGUAGE 'plpgsql';
 
-SELECT (id, nazwa, cena_netto, podatek_vat(cena_netto), (cena_netto + podatek_vat(cena_netto)))
+SELECT id, nazwa, cena_netto, podatek_vat(cena_netto), cena_netto + podatek_vat(cena_netto) as cena_brutto
 FROM towary;
 --skutecznie opodatkowano towary
 
