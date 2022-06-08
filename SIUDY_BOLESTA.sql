@@ -299,10 +299,10 @@ $$
     RETURN NEW;
     END;
 $$
-LANGUAGE plpgsql;
+LANGUAGE 'plpgsql';
 
-CREATE TRIGGER opodatkujTowary2
-BEFORE insert OR update ON towary2
+CREATE OR REPLACE TRIGGER opodatkujTowary2
+AFTER insert OR update ON towary2
 FOR EACH ROW
 EXECUTE PROCEDURE opodatkuj();
 
