@@ -173,3 +173,51 @@ SELECT * FROM pracownicy;
 UPDATE pracownicy SET pensja = extra_money(1) WHERE nr_prac = 1;
 SELECT * FROM pracownicy;
 --pracownik o numerze 1 dostał podwyżkę
+
+--3.29
+ALTER TABLE Osoby ADD COLUMN prefix_tel TEXT;
+ALTER TABLE Osoby ADD COLUMN tel TEXT;
+UPDATE Osoby SET prefix_tel = '0-16' WHERE imie = 'Witold';
+UPDATE Osoby SET tel = '7654321' WHERE imie = 'Witold';
+UPDATE Osoby SET prefix_tel = '0' WHERE imie = 'Kamila';
+UPDATE Osoby SET tel = '500010203' WHERE imie = 'Kamila';
+
+SELECT * FROM osoby;
+--oba numery dodano poprawnie
+
+--3.30
+CREATE OR REPLACE FUNCTION merge_fields(t_row pracownicy) RETURNS text AS
+$$
+BEGIN
+RETURN t_row.imie || ' ' || t_row.nazwisko || ' ' || t_row.prefix_tel || t_row.tel;
+END;
+$$
+LANGUAGE plpgsql;
+
+SELECT merge_fields(t.*) FROM pracownicy t;
+--funkcja podała poprawnie złączone dane
+
+--3.31
+CREATE OR REPLACE FUNCTION merge_fields(t_row osoby) RETURNS text AS
+$$
+BEGIN
+RETURN t_row.prefix_tel || t_row.tel;
+END;
+$$
+LANGUAGE plpgsql;
+
+SELECT merge_fields(t.*) FROM osoby t ;
+--ponownie poprawnie połączone dane
+
+--3.32
+CREATE RULE regula1
+AS ON UPDATE TO Pracownicy
+WHERE NEW.pensja <> OLD.pensja
+DO INSTEAD NOTHING;
+
+--3.33
+SELECT * FROM pracownicy;
+UPDATE pracownicy SET nr_zesp = 30 WHERE nr_zesp = 20;
+SELECT * FROM pracownicy;
+UPDATE pracownicy SET pensja = 2000 WHERE imie = 'Witold';
+SELECT * FROM pracownicy;
