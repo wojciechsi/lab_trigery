@@ -2,7 +2,7 @@
 --temat: triggery
 --sprawozdanie z laboratorium
 --autorzy: Maciej Bolesta, Wojciech Siudy, sekcja 7
---prowadzący zajęcia:
+--prowadzący zajęcia: dr inż. Małgorzata Bach
 --data: 8 czerwca 2022
 
 --3.1
@@ -82,3 +82,15 @@ Select * from premie;
 select premia_kwartalna[1] from premie;
 
 --3.18
+CREATE TABLE wypozyczenia (nr_prac integer, autor_tytul text[][]);
+
+--3.19
+INSERT INTO wypozyczenia VALUES
+(1, '{{"Tolkien", "Hobbit", "Iskry", 1980}, {"Dickens", "Klub Pickwicka", "MG", 1989}, {"Stone",
+"Pasja zycia", "ZYSK I S-KA", 1999}}');
+INSERT INTO wypozyczenia VALUES (2, '{{"Pascal", "Przewodnik", "lonely planet", 2010},
+{"Archer", "Co do grosza", "REBIS Sp. z o.o.", 1999}}');
+
+--3.20
+SELECT * FROM wypozyczenia;
+--
