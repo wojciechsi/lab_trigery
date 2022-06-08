@@ -312,4 +312,4 @@ INSERT INTO towary2 VALUES (1, 'zasilacz', 100);
 SELECT * FROM towary2;
 UPDATE towary2 SET cena = 120 WHERE nazwa = 'zasilacz';
 SELECT * FROM towary2;
-
+--Vat oraz cena brutto były dodawane zarówno przy insert, jak i update
