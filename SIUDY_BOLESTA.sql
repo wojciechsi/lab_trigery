@@ -294,6 +294,9 @@ CREATE TABLE towary2(id integer, nazwa text, netto double precision, vat double 
 CREATE OR REPLACE FUNCTION opodatkuj() RETURNS TRIGGER AS
 $$
     BEGIN
+    NEW.id = OLD.id;
+    NEW.nazwa = OLD.nazwa;
+    NEW.netto = OLD.netto;
     NEW.vat = podatek_vat(OLD.netto);
     NEW.brutto = (podatek_vat(OLD.netto) + OLD.netto);
     RETURN NEW;
@@ -301,9 +304,13 @@ $$
 $$
 LANGUAGE 'plpgsql';
 
-CREATE OR REPLACE TRIGGER opodatkujTowary2
+CREATE TRIGGER opodatkujTowary2
 AFTER insert OR update ON towary2
 FOR EACH ROW
 EXECUTE PROCEDURE opodatkuj();
 
 --3.42
+INSERT INTO towary2 VALUES (1, 'zasilacz', 100);
+INSERT INTO towary2 VALUES (2, 'mysz', 100);
+SELECT * FROM towary2;
+
