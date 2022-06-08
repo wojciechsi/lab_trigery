@@ -137,7 +137,7 @@ LANGUAGE 'sql';
 select dane3();
 --funkcja działa poprawnie
 
---3.25 todo!
+--3.25
 CREATE FUNCTION tytuly (integer) RETURNS setof text[]
 AS 'SELECT autor_tytul[1:100][2:2]FROM wypozyczenia WHERE nr_prac = $1'
 LANGUAGE 'sql';
@@ -221,3 +221,16 @@ UPDATE pracownicy SET nr_zesp = 30 WHERE nr_zesp = 20;
 SELECT * FROM pracownicy;
 UPDATE pracownicy SET pensja = 2000 WHERE imie = 'Witold';
 SELECT * FROM pracownicy;
+--reguła działała poprawnie
+
+DROP RULE regula1 ON pracownicy;
+
+--3.34
+CREATE RULE regula2
+AS ON INSERT TO pracownicy
+WHERE nr_prac <= 0
+DO INSTEAD NOTHING;
+
+INSERT INTO pracownicy (nr_prac) VALUES (-5);
+SELECT * FROM pracownicy;
+--reguła działa poprawnie
