@@ -285,4 +285,9 @@ END;
 $$
 LANGUAGE 'plpgsql';
 
-SELECT (id, nazwa, c)
+SELECT (id, nazwa, cena_netto, podatek_vat(cena_netto), (cena_netto + podatek_vat(cena_netto)))
+FROM towary;
+--skutecznie opodatkowano towary
+
+--3.41
+CREATE TABLE towary2(id integer, nazwa text, cena double precision)
