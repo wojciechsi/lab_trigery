@@ -105,13 +105,13 @@ SELECT nr_prac, autor_tytul[1:3][1:3] FROM wypozyczenia;
 --pokazało pierwsze trzy wartości trzech pierwszych wypożyczeń
 
 SELECT nr_prac, autor_tytul[1:3][2] FROM wypozyczenia;
---pierwsze trzy atrybuty drugiego wypożyczenia
+--pierwsze dwa atrybuty trzech wypożyczeń
 
 SELECT nr_prac, autor_tytul[2][2] FROM wypozyczenia;
 --drugi atrybut (tytuł) drugiego wypożyczenia każdego pracownika
 
 SELECT nr_prac, autor_tytul[2][1] FROM wypozyczenia;
---drugi atrybut (tytuł) pierwszego wypożyczenia każdego pracownika
+--pierwszy atrybut (autor) drugiego wypożyczenia każdego pracownika
 
 --3.21
 CREATE FUNCTION dane (integer) RETURNS text
