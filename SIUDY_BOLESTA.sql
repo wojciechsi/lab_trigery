@@ -93,4 +93,38 @@ INSERT INTO wypozyczenia VALUES (2, '{{"Pascal", "Przewodnik", "lonely planet", 
 
 --3.20
 SELECT * FROM wypozyczenia;
---
+--pokazało wszystkie
+
+SELECT nr_prac, autor_tytul[1][1] FROM wypozyczenia;
+--pokazało autorów pierwszej wypożyczonej książki każdego pracownika
+
+SELECT nr_prac, autor_tytul[1:3][1] FROM wypozyczenia;
+--pokazało autorów od pierwszej do trzeciej wypożyczonej pozycji
+
+SELECT nr_prac, autor_tytul[1:3][1:3] FROM wypozyczenia;
+--pokazało pierwsze trzy wartości trzech pierwszych wypożyczeń
+
+SELECT nr_prac, autor_tytul[1:3][2] FROM wypozyczenia;
+--pierwsze trzy atrybuty drugiego wypożyczenia
+
+SELECT nr_prac, autor_tytul[2][2] FROM wypozyczenia;
+--drugi atrybut (tytuł) drugiego wypożyczenia każdego pracownika
+
+SELECT nr_prac, autor_tytul[2][1] FROM wypozyczenia;
+--drugi atrybut (tytuł) pierwszego wypożyczenia każdego pracownika
+
+--3.21
+CREATE FUNCTION dane (integer) RETURNS text
+AS 'select nazwisko from Pracownicy where nr_prac = $1'
+LANGUAGE 'sql';
+
+--3.22
+select dane(1) as nazwisko;
+--funkcja działa poprawnie
+
+--3.23
+CREATE TYPE complex AS (i text, n text, p text);
+CREATE FUNCTION dane2 (integer) RETURNS complex
+AS 'select imie, nazwisko, PESEL from Pracownicy where nr_prac = $1'
+LANGUAGE 'sql';
+select dane2(2);
