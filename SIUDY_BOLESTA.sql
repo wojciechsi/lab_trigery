@@ -295,8 +295,8 @@ CREATE TABLE towary2(id integer, nazwa text, cena double precision, cena_vat dou
 CREATE OR REPLACE FUNCTION opodatkuj() RETURNS TRIGGER AS
 $$
     BEGIN
-    NEW.vat = podatek_vat(NEW.netto);
-    NEW.brutto = NEW.vat + NEW.netto;
+    NEW.cena_vat = podatek_vat(NEW.cena);
+    NEW.cena_brutto = NEW.cena_vat + NEW.cena;
     RETURN NEW;
     END;
 $$
