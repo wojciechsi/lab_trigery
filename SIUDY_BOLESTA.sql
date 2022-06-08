@@ -128,3 +128,18 @@ CREATE FUNCTION dane2 (integer) RETURNS complex
 AS 'select imie, nazwisko, PESEL from Pracownicy where nr_prac = $1'
 LANGUAGE 'sql';
 select dane2(2);
+--funkcja działa poprawnie
+
+--3.24
+CREATE FUNCTION dane3 () RETURNS setof complex
+AS 'select imie, nazwisko, PESEL from Pracownicy'
+LANGUAGE 'sql';
+select dane3();
+--funkcja działa poprawnie
+
+SELECT autor_tytul[1][1] FROM wypozyczenia WHERE nr_prac = 1;
+
+--3.25 todo!
+CREATE FUNCTION tytuly (integer) RETURNS setof text
+AS 'SELECT autor_tytul[1][1] FROM wypozyczenia WHERE nr_prac = $1'
+LANGUAGE 'sql';
