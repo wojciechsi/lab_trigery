@@ -234,3 +234,55 @@ DO INSTEAD NOTHING;
 INSERT INTO pracownicy (nr_prac) VALUES (-5);
 SELECT * FROM pracownicy;
 --reguła działa poprawnie
+
+--3.35
+CREATE VIEW osob_view AS SELECT imie, nazwisko, PESEL FROM osoby WHERE
+imie='Witold ';
+
+CREATE RULE reg2 AS ON INSERT TO osob_view DO INSTEAD INSERT INTO osoby
+(imie, nazwisko, PESEL) VALUES (NEW.imie,NEW.nazwisko, NEW.PESEL);
+
+--3.36
+ALTER TABLE Premie ADD COLUMN last_updated timestamptz;
+
+--3.37
+CREATE OR REPLACE FUNCTION upd() RETURNS trigger AS
+$$
+BEGIN
+NEW.last_updated = now();
+RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER last_upd
+BEFORE insert OR update ON Premie
+FOR EACH ROW
+EXECUTE PROCEDURE upd();
+
+--3.38
+SELECT * FROM Premie;
+INSERT INTO Premie VALUES (2, '{300,150,100,150}');
+SELECT * FROM Premie;
+--udało się zaobserwować pojawienie się wartości informującej o ostatniej edycji
+
+--3.39
+CREATE TABLE towary(id integer, nazwa text, cena_netto double precision);
+
+--3.39
+INSERT INTO towary VALUES (1, 'kabel', 50);
+INSERT INTO towary VALUES (2, 'laptop', 940);
+INSERT INTO towary VALUES (3, 'monitor', 600);
+
+--3.40
+CREATE OR REPLACE FUNCTION podatek_vat (double precision) RETURNS double precision AS
+$$
+DECLARE zm double precision;
+BEGIN
+SELECT 0.23 * $1 INTO zm;
+RETURN zm;
+END;
+$$
+LANGUAGE 'plpgsql';
+
+SELECT (id, nazwa, c)
